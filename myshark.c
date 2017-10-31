@@ -165,7 +165,8 @@ void print_each_packet_xml()
 
 	while (read_packet(&edt)) {
 
-		write_pdml_proto_tree(NULL, NULL, PF_NONE, edt, stdout);
+		if (edt->pi.ptype == PT_SCTP && edt->pi.srcport == 36412 && edt->pi.destport == 36412)
+			write_pdml_proto_tree(NULL, NULL, PF_NONE, edt, stdout);
 
 		epan_dissect_free(edt);
 		edt = NULL;
@@ -181,7 +182,8 @@ void print_each_packet_text()
 
 	while (read_packet(&edt)) {
 
-		proto_tree_print(print_dissections_expanded, FALSE, edt, NULL, print_stream);
+		if (edt->pi.ptype == PT_SCTP && edt->pi.srcport == 36412 && edt->pi.destport == 36412)
+			proto_tree_print(print_dissections_expanded, FALSE, edt, NULL, print_stream);
 
 		epan_dissect_free(edt);
 		edt = NULL;
